@@ -8,3 +8,4 @@ export 'horizontal_spacing.dart';
 export 'today_card.dart';
 export 'arrow.dart';
 export 'footer.dart';
+export 'detail_card.dart';

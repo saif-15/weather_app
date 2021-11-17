@@ -33,7 +33,7 @@ class Background extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                Colors.transparent,
+                Colors.black45,
                 AppColors.dark_blue,
               ])),
         ),
