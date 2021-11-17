@@ -11,7 +11,7 @@ class Arrow extends StatelessWidget {
     return Transform.rotate(
         angle: math.radians(angle),
         child: Icon(
-          Icons.arrow_upward,
+          Icons.arrow_downward,
           color: AppColors.white,
         ));
   }

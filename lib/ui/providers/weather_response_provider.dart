@@ -55,11 +55,12 @@ class WeatherProvider extends ChangeNotifier {
 
   getHourlyWeatherResult() async {
     hrStatus = Status.LOADING;
-    await Future.delayed(Duration(milliseconds: 1000));
+    print(hrStatus);
     _response = await _service
         .getTwoDaysForecast(Coordinates(lat: this.lat, lon: this.lng));
     print(_response.result.hourly.length);
     hrStatus = Status.LOADED;
+    print(hrStatus);
     notifyListeners();
   }
 }

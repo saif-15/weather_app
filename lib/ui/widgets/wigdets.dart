@@ -9,3 +9,5 @@ export 'today_card.dart';
 export 'arrow.dart';
 export 'footer.dart';
 export 'detail_card.dart';
+export 'search_box.dart';
+export 'grid_item_card.dart';

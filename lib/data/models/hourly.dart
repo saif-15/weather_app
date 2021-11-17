@@ -10,9 +10,9 @@ class Hourly {
   dynamic uvi;
   int clouds;
   int visibility;
-  double windSpeed;
+  dynamic windSpeed;
   int windDeg;
-  double windGust;
+  dynamic windGust;
   List<Weather> weather;
   int pop;
 

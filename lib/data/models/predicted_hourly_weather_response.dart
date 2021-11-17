@@ -1,8 +1,8 @@
 import 'package:weather_app/data/models/models.dart';
 
 class PredictedHourlyWeatherResponse {
-  double lat;
-  double lon;
+  dynamic lat;
+  dynamic lon;
   String timezone;
   int timezoneOffset;
   List<Hourly> hourly;

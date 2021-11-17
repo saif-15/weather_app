@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/ui/providers/weather_response_provider.dart';
 import 'package:weather_app/ui/widgets/wigdets.dart';
 import 'package:weather_app/utils/colors.dart';
+import 'package:weather_app/utils/date_time.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({Key key}) : super(key: key);
@@ -12,6 +15,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
+    var weather = Provider.of<WeatherProvider>(context);
     return Stack(
       children: [
         Background(),
@@ -21,7 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
           child: Column(
             children: [
               VerticalSpacing(
-                height: 10.0,
+                height: 16.0,
               ),
               Text(
                 "Forecast Report",
@@ -33,10 +37,14 @@ class _DetailScreenState extends State<DetailScreen> {
               VerticalSpacing(
                 height: 10.0,
               ),
-              TodayCardList(
-                title: "Today",
-                date: "24 May 2022",
-              ),
+              weather.hrStatus == Status.LOADED
+                  ? TodayCardList(
+                      title: "Today",
+                      date: DateTimeFormat.toDateString(
+                          weather.response.result.hourly[0].dt),
+                      data: weather.response,
+                    )
+                  : SizedBox.shrink(),
               VerticalSpacing(
                 height: 10.0,
               ),

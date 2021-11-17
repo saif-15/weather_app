@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/ui/providers/navigation.dart';
 import 'package:weather_app/ui/providers/weather_response_provider.dart';
 import 'package:weather_app/ui/screens/screens.dart';
-import 'package:weather_app/utils/date_time.dart';
 
 void main() {
   runApp(WeatherApp());
@@ -23,6 +22,7 @@ class WeatherApp extends StatelessWidget {
         ],
         child: MaterialApp(
             theme: ThemeData(
+                primaryColor: Colors.white,
                 textTheme:
                     GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
             home: NavScreen()));

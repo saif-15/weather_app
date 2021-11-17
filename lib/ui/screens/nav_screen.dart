@@ -17,15 +17,15 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
-    SearchScreen(),
     DetailScreen(),
+    SearchScreen(),
     SettingsScreen(),
   ];
 
   final List<IconData> _icons = [
     MdiIcons.homeVariant,
-    MdiIcons.magnify,
     MdiIcons.cardMultiple,
+    MdiIcons.magnify,
     Icons.settings
   ];
 
@@ -43,8 +43,8 @@ class _NavScreenState extends State<NavScreen> {
           color: AppColors.dark_blue,
           child: CustomBottomBar(
               icons: _icons,
-              selectedIndex:  navigation_provider.index,
-              onTap: (index) =>  navigation_provider.index=index),
+              selectedIndex: navigation_provider.index,
+              onTap: (index) => navigation_provider.index = index),
         ),
       ),
     );
