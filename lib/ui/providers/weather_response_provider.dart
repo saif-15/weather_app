@@ -10,13 +10,15 @@ enum Status { INITIAL, LOADING, LOADED, ERROR }
 class WeatherProvider extends ChangeNotifier {
   Status _status = Status.INITIAL;
   Status _hrStatus = Status.INITIAL;
+  Status _dailyStatus = Status.INITIAL;
   Client _client;
   Service _service;
   WeatherResponse<CurrentWeatherResult> _result;
   WeatherResponse<PredictedHourlyWeatherResponse> _response;
-  String _currentCity = "";
-  double lat = 26.0;
-  double lng = 89.0;
+  WeatherResponse<PredictedDailyWeatherResponse> _dailyResponse;
+  String _currentCity = "karachi";
+  var lat = 24.76;
+  var lng = 67.011;
 
   WeatherProvider() {
     _client = Client();
@@ -25,6 +27,8 @@ class WeatherProvider extends ChangeNotifier {
 
   set city(String city) {
     _currentCity = city;
+
+    notifyListeners();
   }
 
   String get city => _currentCity;
@@ -37,30 +41,47 @@ class WeatherProvider extends ChangeNotifier {
     _hrStatus = status;
   }
 
+  set dailyStatus(Status status) {
+    _dailyStatus = status;
+  }
+
   Status get status => _status;
   Status get hrStatus => _hrStatus;
+  Status get dailyStatus => _dailyStatus;
 
   WeatherResponse<CurrentWeatherResult> get result => _result;
   WeatherResponse<PredictedHourlyWeatherResponse> get response => _response;
-
-  getCurrentWeatherResult(String city) async {
-    status = Status.LOADING;
+  WeatherResponse<PredictedDailyWeatherResponse> get dailyResult =>
+      _dailyResponse;
+  getCurrentWeatherResult() async {
+    _status = Status.LOADING;
+    print(status);
     await Future.delayed(Duration(milliseconds: 1000));
-    _result = await _service.getCurrentWeatherResult(city);
+    _result = await _service.getCurrentWeatherResult(_currentCity);
     this.lat = _result.result.coord.lat;
     this.lng = _result.result.coord.lon;
-    status = Status.LOADED;
+    print("{$lat and $lng}");
+    _status = Status.LOADED;
+    print(status);
+
     notifyListeners();
   }
 
   getHourlyWeatherResult() async {
-    hrStatus = Status.LOADING;
-    print(hrStatus);
+    _hrStatus = Status.LOADING;
     _response = await _service
         .getTwoDaysForecast(Coordinates(lat: this.lat, lon: this.lng));
     print(_response.result.hourly.length);
-    hrStatus = Status.LOADED;
-    print(hrStatus);
+    _hrStatus = Status.LOADED;
+    notifyListeners();
+  }
+
+  getDailyWeatherResult() async {
+    _dailyStatus = Status.LOADING;
+    _dailyResponse = await _service
+        .getSevenDaysForecast((Coordinates(lat: this.lat, lon: this.lng)));
+    print(_dailyResponse.result.daily[0].dt);
+    _dailyStatus = Status.LOADED;
     notifyListeners();
   }
 }

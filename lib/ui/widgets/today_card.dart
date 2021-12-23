@@ -13,8 +13,10 @@ import 'package:weather_app/utils/image_helper.dart';
 class TodayCardList extends StatelessWidget {
   final String title;
   final String date;
+  final int sunrise;
+  final int sunset;
   final WeatherResponse<PredictedHourlyWeatherResponse> data;
-  const TodayCardList({Key key, this.title, this.date, this.data})
+  const TodayCardList({Key key, this.title, this.date, this.data,this.sunrise,this.sunset})
       : super(key: key);
 
   @override
@@ -60,13 +62,12 @@ class TodayCardList extends StatelessWidget {
                 itemCount: data.result.hourly.length,
                 itemBuilder: (context, index) {
                   var resp = data.result.hourly[index];
-                  print(resp.weather[0].main);
-                  print("------");
+
                   return _ItemCard(
                     image:
                         ImageHelper.getImagePath(resp.weather[0].main, resp.dt),
                     temp: resp.temp.toString(),
-                    time: DateTimeFormat.to24HoursTimeString(resp.dt),
+                    time: DateTimeFormat.to12HoursTimeString(resp.dt),
                   );
                 },
               ),

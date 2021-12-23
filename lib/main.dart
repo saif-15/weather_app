@@ -21,6 +21,7 @@ class WeatherApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => Navigation())
         ],
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 primaryColor: Colors.white,
                 textTheme:

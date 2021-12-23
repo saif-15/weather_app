@@ -14,7 +14,7 @@ class Hourly {
   int windDeg;
   dynamic windGust;
   List<Weather> weather;
-  int pop;
+  dynamic pop;
 
   Hourly(
       {this.dt,

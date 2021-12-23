@@ -4,7 +4,7 @@ import 'package:weather_app/utils/date_time.dart';
 class ImageHelper {
   static final icons = [
     "assets/weather_clouds.json",
-    "assets/weather_clouds_night.json",
+    "assets/weather_cloudy_night.json",
     "assets/weather_foggy.json",
     "assets/weather_lightning.json",
     "assets/weather_mist.json",

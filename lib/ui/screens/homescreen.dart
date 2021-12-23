@@ -15,39 +15,59 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  var city = 'Mumbai';
-  var lat;
-  var lng;
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+  Animation<double> _animation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 5000));
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.bounceIn));
+    _animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<WeatherProvider>().getCurrentWeatherResult(city);
+    context.read<WeatherProvider>().getCurrentWeatherResult();
     context.read<WeatherProvider>().getHourlyWeatherResult();
     return Stack(
       children: [
         Background(),
         Consumer<WeatherProvider>(builder: (_, WeatherProvider weather, child) {
-          return weather.status == Status.LOADED &&
-                  weather.hrStatus == Status.LOADED
+          return weather.status == Status.LOADED
               ? RefreshIndicator(
                   displacement: 30.0,
                   onRefresh: () async {
-                    lat = weather.result.result.coord.lat;
-                    lng = weather.result.result.coord.lon;
                     await Future.delayed(Duration(seconds: 2));
-                    context
-                        .read<WeatherProvider>()
-                        .getCurrentWeatherResult("quetta");
-                         context.read<WeatherProvider>().getHourlyWeatherResult();
+                    weather.getCurrentWeatherResult();
+                    context.read<WeatherProvider>().getHourlyWeatherResult();
                   },
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     child: Column(
                       children: [
-                        CityTile(
-                          result: weather.result,
-                        ),
+                        AnimatedBuilder(
+                            animation: _animationController,
+                            builder: (context, child) {
+                              print(_animation.value);
+                              return Transform.scale(
+                                  scale: _animation.value,
+                                  child: CityTile(
+                                    result: weather.result,
+                                  ));
+                            }),
+
                         // DottedLoader(
                         //   size: Size(50, 50),
                         //   colors: [
@@ -57,12 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         //     AppColors.light_blue
                         //   ],
                         // ),
-                        TodayCardList(
-                          data: weather.response,
-                          title: "Next Two Days",
-                          date: DateTimeFormat.toDateString(
-                              weather.result.result.dt),
-                        ),
+
+                        weather.hrStatus == Status.LOADED
+                            ? TodayCardList(
+                                data: weather.response,
+                                title: "Next Two Days",
+                                date: DateTimeFormat.toDateString(
+                                    weather.result.result.dt),
+                              )
+                            : SizedBox.shrink(),
                         Footer(time: weather.result.result.dt),
                       ],
                     ),

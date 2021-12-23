@@ -9,6 +9,12 @@ class DateTimeFormat {
         .toString();
   }
 
+  static String toMString(int timestamp) {
+    return DateFormat.yMMMMd('en_US')
+        .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000))
+        .toString();
+  }
+
   static String footerDate(int timestamp) {
     return DateFormat.yMd()
         .add_jm()

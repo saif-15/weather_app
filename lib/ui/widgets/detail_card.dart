@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/ui/widgets/vertical_spacing.dart';
 import 'package:weather_app/utils/colors.dart';
+import 'package:weather_app/utils/date_time.dart';
+import 'package:weather_app/utils/image_helper.dart';
 
 class DetailCard extends StatelessWidget {
-  const DetailCard({Key key}) : super(key: key);
+  final int time;
+  final String temp;
+  final String main;
+  const DetailCard({Key key, this.time, this.temp, this.main})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,7 @@ class DetailCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "Friday",
+                  DateTimeFormat.toWeekDay(time),
                   style: TextStyle(
                       color: AppColors.white,
                       fontSize: 16.0,
@@ -36,7 +42,7 @@ class DetailCard extends StatelessWidget {
                   height: 4.0,
                 ),
                 Text(
-                  "May 28",
+                  DateTimeFormat.toDateString(time),
                   style: TextStyle(
                       color: AppColors.white,
                       fontSize: 12.0,
@@ -47,15 +53,16 @@ class DetailCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "32 \u2103",
+                  "${temp} \u2103",
                   style: TextStyle(
                       color: AppColors.white,
-                      fontSize: 45.0,
+                      fontSize: 35.0,
                       fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-            Lottie.asset("assets/weather_mist.json", width: 70, height: 70)
+            Lottie.asset(ImageHelper.getImagePath(main, time),
+                width: 50, height: 50)
           ],
         ),
       ),

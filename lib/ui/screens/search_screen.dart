@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/data/models/models.dart';
+import 'package:weather_app/ui/providers/weather_response_provider.dart';
 import 'package:weather_app/ui/widgets/wigdets.dart';
 import 'package:weather_app/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key key}) : super(key: key);
@@ -51,27 +54,43 @@ class _SearchScreenState extends State<SearchScreen> {
               VerticalSpacing(
                 height: 10.0,
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: GridView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: 10,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index % 2 == 1) {
-                        return Transform.translate(
-                          offset: Offset(0, 30),
-                          child: GridItemCard(),
+              Expanded(child: Consumer<WeatherProvider>(
+                builder: (context, weather, child) {
+                  return weather.status == Status.LOADED &&
+                          weather.hrStatus == Status.LOADED
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: GridView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: 1,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              var result = weather.result.result;
+                              return GridItemCard(
+                                cityName: result.name,
+                                main: result.weather[0].main,
+                                temp: result.main.temp.toString(),
+                                timestamp: result.dt,
+                                minTemp: result.main.tempMin,
+                                maxtemp: result.main.tempMax,
+                              );
+                            },
+                          ),
+                        )
+                      : DottedLoader(
+                          size: Size(50.0, 50.0),
+                          colors: [
+                            AppColors.gray,
+                            AppColors.white,
+                            AppColors.gray,
+                            AppColors.light_blue
+                          ],
                         );
-                      }
-                      return GridItemCard();
-                    },
-                  ),
-                ),
-              )
+                },
+              ))
             ],
           ),
         ))

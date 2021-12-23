@@ -58,8 +58,8 @@ class ApiService extends Service {
   Future<WeatherResponse<PredictedDailyWeatherResponse>> getSevenDaysForecast(
       Coordinates coordinates) async {
     final String url =
-        "onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,current&units=metric&appid=${Constants.API_KEY}";
-    try {
+        "onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=hourly,minutely,current&units=metric&appid=${Constants.API_KEY}"; 
+        try {
       var response = await client.get(Uri.parse(Constants.BASE_URL + url));
       if (response.statusCode == 200) {
         var result =

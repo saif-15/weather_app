@@ -15,7 +15,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
-    var weather = Provider.of<WeatherProvider>(context);
+    context.read<WeatherProvider>().getDailyWeatherResult();
     return Stack(
       children: [
         Background(),
@@ -37,14 +37,24 @@ class _DetailScreenState extends State<DetailScreen> {
               VerticalSpacing(
                 height: 10.0,
               ),
-              weather.hrStatus == Status.LOADED
-                  ? TodayCardList(
-                      title: "Today",
-                      date: DateTimeFormat.toDateString(
-                          weather.response.result.hourly[0].dt),
-                      data: weather.response,
-                    )
-                  : SizedBox.shrink(),
+              Consumer<WeatherProvider>(builder: (content, weather, child) {
+                return weather.hrStatus == Status.LOADED
+                    ? TodayCardList(
+                        title: "Today",
+                        date: DateTimeFormat.toDateString(
+                            weather.response.result.hourly[0].dt),
+                        data: weather.response,
+                      )
+                    : DottedLoader(
+                        colors: [
+                          AppColors.white,
+                          AppColors.gray,
+                          AppColors.light_blue,
+                          AppColors.gray
+                        ],
+                        size: Size(60.0, 60.0),
+                      );
+              }),
               VerticalSpacing(
                 height: 10.0,
               ),
@@ -70,14 +80,31 @@ class _DetailScreenState extends State<DetailScreen> {
                       ))
                 ],
               ),
-              Expanded(
-                child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (_, index) {
-                      return DetailCard();
-                    }),
-              )
+              Expanded(child: Consumer<WeatherProvider>(
+                builder: (content, weather, child) {
+                  return weather.dailyStatus == Status.LOADED
+                      ? ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: weather.dailyResult.result.daily.length,
+                          itemBuilder: (_, index) {
+                            var daily = weather.dailyResult.result.daily[index];
+                            return DetailCard(
+                              main: daily.weather[0].main,
+                              temp: daily.temp.day.toString(),
+                              time: daily.dt,
+                            );
+                          })
+                      : DottedLoader(
+                          colors: [
+                            AppColors.white,
+                            AppColors.gray,
+                            AppColors.light_blue,
+                            AppColors.gray
+                          ],
+                          size: Size(60.0, 60.0),
+                        );
+                },
+              ))
             ],
           ),
         )),

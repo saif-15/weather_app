@@ -6,19 +6,19 @@ class Daily {
   int sunset;
   int moonrise;
   int moonset;
-  double moonPhase;
+  dynamic moonPhase;
   Temp temp;
   FeelsLike feelsLike;
   int pressure;
   int humidity;
-  double dewPoint;
-  double windSpeed;
+  dynamic dewPoint;
+  dynamic windSpeed;
   int windDeg;
-  double windGust;
+  dynamic windGust;
   List<Weather> weather;
   int clouds;
-  int pop;
-  double uvi;
+  dynamic pop;
+  dynamic uvi;
 
   Daily(
       {this.dt,

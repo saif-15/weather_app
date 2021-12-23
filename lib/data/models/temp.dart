@@ -1,10 +1,10 @@
 class Temp {
-  double day;
-  double min;
-  double max;
-  double night;
-  double eve;
-  double morn;
+  dynamic min;
+  dynamic day;
+  dynamic max;
+  dynamic night;
+  dynamic eve;
+  dynamic morn;
 
   Temp({this.day, this.min, this.max, this.night, this.eve, this.morn});
 

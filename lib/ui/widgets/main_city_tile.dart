@@ -148,8 +148,10 @@ class _CityTileState extends State<CityTile> {
               height: 16.0,
             ),
             Lottie.asset(
-                ImageHelper.getImagePath(widget.result.result.weather[0].main,
-                    widget.result.result.dt),
+                ImageHelper.getImagePath(
+                  widget.result.result.weather[0].main,
+                  widget.result.result.dt,
+                ),
                 height: 300.0,
                 width: 250.0),
             TemperatureCard(
