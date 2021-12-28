@@ -2,6 +2,10 @@
 
 A new Flutter project.
 
+# Deployed On Netlify
+Since its a mobile app and I didnt add responsiveness yet it might freak out
+https://heuristic-wilson-da1216.netlify.app/#/
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
